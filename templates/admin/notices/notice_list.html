@@ -1,0 +1,48 @@
+{% extends "admin/dashboard.html" %}
+{% block content %}
+
+<h2>Notices</h2>
+
+<a href="{% url 'admin_notice_add' %}" class="primary-btn">
+    + Add Notice
+</a>
+
+<div class="admin-table">
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Status</th>
+                <th>Category</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for notice in notices %}
+            <tr>
+                <td>{{ notice.title }}</td>
+                <td>
+                    {% if notice.is_published %}
+                        <span class="status published">Published</span>
+                    {% else %}
+                        <span class="status draft">Draft</span>
+                    {% endif %}
+                </td>
+                <td>{{ notice.category.name }}</td>
+                <td>{{ notice.created_at|date:"d M Y" }}</td>
+                <td>
+                    <a href="{% url 'admin_notice_edit' notice.id %}" class="action-btn btn-edit">Edit</a>
+                    <a href="{% url 'admin_notice_delete' notice.id %}" 
+                       class="action-btn btn-delete"
+                       onclick="return confirm('Delete this notice?')">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

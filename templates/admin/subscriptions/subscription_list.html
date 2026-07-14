@@ -1,0 +1,51 @@
+{% extends "admin/dashboard.html" %}
+{% block content %}
+
+<h2>Email Subscriptions</h2>
+
+<div class="admin-table">
+    <table>
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Categories</th>
+                <th>Departments</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sub in subscriptions %}
+            <tr>
+                <td>{{ sub.email }}</td>
+                <td>
+                    {% for c in sub.categories.all %}
+                        {{ c.name }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for d in sub.departments.all %}
+                        {{ d.name }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
+                <td>
+                    {% if sub.is_active %}
+                        <span class="status published">Active</span>
+                    {% else %}
+                        <span class="status draft">Inactive</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'admin_subscription_delete' sub.id %}" 
+                       class="action-btn btn-delete"
+                       onclick="return confirm('Remove this subscription?')">
+                        Remove
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

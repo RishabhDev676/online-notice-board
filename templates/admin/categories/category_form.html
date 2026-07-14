@@ -1,0 +1,32 @@
+{% extends "admin/dashboard.html" %}
+{% block content %}
+
+<h2>
+    {% if category %}
+        Edit Category
+    {% else %}
+        Add Category
+    {% endif %}
+</h2>
+
+<form method="post">
+    {% csrf_token %}
+
+    <label>Name</label>
+    <input type="text"
+           name="name"
+           value="{{ category.name|default:'' }}"
+           required>
+
+    <br><br>
+
+    <button type="submit">
+        {% if category %}
+            Update Category
+        {% else %}
+            Add Category
+        {% endif %}
+    </button>
+</form>
+
+{% endblock %}

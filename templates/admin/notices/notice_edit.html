@@ -1,0 +1,65 @@
+{% extends "admin/dashboard.html" %}
+
+{% block content %}
+<h2>Edit Notice</h2>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <label>Title</label>
+    <input name="title" value="{{ notice.title }}" required>
+
+    <label>Description</label>
+    <textarea name="description">{{ notice.description }}</textarea>
+
+    <label>Category</label>
+    <select name="category">
+        {% for c in categories %}
+            <option value="{{ c.id }}" {% if notice.category_id == c.id %}selected{% endif %}>
+                {{ c.name }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <label>Department</label>
+    <select name="department">
+        <option value="">---</option>
+        {% for d in departments %}
+            <option value="{{ d.id }}" {% if notice.department_id == d.id %}selected{% endif %}>
+                {{ d.name }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <label>Upload File (PDF, Image, Word, Excel, etc.)</label>
+    <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx">
+
+
+    <br><br>
+
+    <div style="margin-top:20px;">
+
+        <div style="display:flex; align-items:center; margin-bottom:12px;">
+            <input type="checkbox"
+                name="is_published"
+                style="width:auto; margin-right:10px;"
+                {% if notice.is_published %}checked{% endif %}>
+            <label style="margin:0;">Published</label>
+        </div>
+
+        <div style="display:flex; align-items:center;">
+            <input type="checkbox"
+                name="major_update"
+                style="width:auto; margin-right:10px;">
+            <label style="margin:0;">
+                Major update (show badge + email)
+            </label>
+        </div>
+
+    </div>
+
+
+    <br><br>
+    <button type="submit">Update Notice</button>
+</form>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "public/base.html" %}
+
+{% block content %}
+<h2>{{ category.name }} Notices</h2>
+
+{% if notices %}
+    {% for notice in notices %}
+        {% include "public/notice_card.html" %}
+    {% endfor %}
+{% else %}
+    <p>No notices in this category.</p>
+{% endif %}
+
+{% endblock %}

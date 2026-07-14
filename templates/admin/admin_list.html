@@ -1,0 +1,47 @@
+{% extends "admin/dashboard.html" %}
+{% block content %}
+
+<h2 style="margin-bottom:20px;">Approved Admins</h2>
+
+<div class="admin-card">
+
+    {% if admins %}
+        <table class="admin-table">
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Action</th>
+            </tr>
+
+            {% for profile in admins %}
+            <tr>
+                <td>{{ profile.user.username }}</td>
+                <td>{{ profile.user.email }}</td>
+                <td>
+                    {% if profile.user.is_superuser %}
+                        <span class="badge-super">Super Admin</span>
+                    {% else %}
+                        <span class="badge-admin">Admin</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if not profile.user.is_superuser %}
+                        <a href="{% url 'admin_remove_admin' profile.id %}"
+                           onclick="return confirm('Remove this admin?');">
+                            <button class="btn-delete">Remove</button>
+                        </a>
+                    {% else %}
+                        —
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p style="padding:20px;">No admins available.</p>
+    {% endif %}
+
+</div>
+
+{% endblock %}

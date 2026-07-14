@@ -1,0 +1,48 @@
+{% extends "admin/dashboard.html" %}
+
+{% block content %}
+<h2>Add Notice</h2>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <label>Title</label>
+    <input name="title" required>
+
+    <label>Description</label>
+    <textarea name="description"></textarea>
+
+    <label>Category</label>
+    <select name="category" required>
+        {% for c in categories %}
+            <option value="{{ c.id }}">{{ c.name }}</option>
+        {% endfor %}
+    </select>
+
+    <label>Department (optional)</label>
+    <select name="department">
+        <option value="">---</option>
+        {% for d in departments %}
+            <option value="{{ d.id }}">{{ d.name }}</option>
+        {% endfor %}
+    </select>
+
+    <label>Upload File (PDF, Image, Word, Excel, etc.)</label>
+    <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx">
+
+
+    <br><br>
+    
+    <!-- Published -->
+    <div style="display:flex; align-items:center; margin-bottom:12px;">
+        <input type="checkbox"
+            name="is_published"
+            style="width:auto; margin-right:10px;">
+        <label style="margin:0;">Published</label>
+    </div>
+    
+
+    <br><br>
+    <button type="submit">Save Notice</button>
+</form>
+{% endblock %}

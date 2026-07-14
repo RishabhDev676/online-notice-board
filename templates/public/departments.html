@@ -1,0 +1,15 @@
+{% extends "public/base.html" %}
+
+{% block content %}
+
+<h2 style="margin-bottom:25px;">Departments</h2>
+
+<div class="department-grid">
+    {% for department in departments %}
+        <a href="{% url 'department_notices' department.slug %}" class="department-card">
+            {{ department.name }}
+        </a>
+    {% endfor %}
+</div>
+
+{% endblock %}

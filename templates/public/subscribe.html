@@ -1,0 +1,47 @@
+{% extends "public/base.html" %}
+
+{% block content %}
+
+<h2 style="margin-bottom:30px;">Email Subscription</h2>
+
+<div class="subscribe-container">
+
+    <form method="post" class="subscribe-form">
+        {% csrf_token %}
+
+        <label>Email Address</label>
+        <input type="email" name="email" required>
+
+        <div class="checkbox-section">
+            <h4>Subscribe to Categories</h4>
+            <div class="checkbox-grid">
+                {% for category in categories %}
+                    <label class="checkbox-card">
+                        <input type="checkbox" name="categories" value="{{ category.id }}">
+                        <span>{{ category.name }}</span>
+                    </label>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="checkbox-section">
+            <h4>Subscribe to Departments</h4>
+            <div class="checkbox-grid">
+                {% for department in departments %}
+                    <label class="checkbox-card">
+                        <input type="checkbox" name="departments" value="{{ department.id }}">
+                        <span>{{ department.name }}</span>
+                    </label>
+                {% endfor %}
+            </div>
+        </div>
+
+        <button type="submit" class="subscribe-submit">
+            🔔 Subscribe Now
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

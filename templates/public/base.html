@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Notice Board</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Segoe UI", system-ui, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #333;
+        }
+
+        /* ================= HEADER ================= */
+
+        header {
+            background: linear-gradient(135deg, #6d28d9, #2563eb);
+            padding: 30px 40px;
+            color: white;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 30px;
+            font-weight: 700;
+        }
+
+        nav a {
+            color: white;
+            margin-right: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            transition: 0.3s ease;
+        }
+
+        nav a::after {
+            content: "";
+            position: absolute;
+            width: 0%;
+            height: 2px;
+            background: white;
+            left: 0;
+            bottom: -6px;
+            transition: 0.3s;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .admin-btn {
+            background: white;
+            color: #2563eb;
+            padding: 8px 18px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .admin-btn:hover {
+            background: #2563eb;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37,99,235,0.5);
+        }
+
+        /* ================= SMALL SUBSCRIBE BOX ================= */
+
+        .subscribe-box {
+            background: #ffffff;
+            max-width: 1000px;
+            margin: 30px auto 10px auto;
+            padding: 20px 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        .subscribe-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .subscribe-inner strong {
+            font-size: 16px;
+        }
+
+        .subscribe-inner p {
+            font-size: 14px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .subscribe-btn {
+            background: linear-gradient(135deg, #f97316, #f59e0b);
+            color: white;
+            padding: 9px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s ease;
+        }
+
+        .subscribe-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(249,115,22,0.4);
+        }
+
+        /* ================= CONTENT ================= */
+
+        .container {
+            max-width: 1200px;
+            margin: 35px auto;
+            padding: 0 30px;
+        }
+
+        h2 {
+            margin-bottom: 25px;
+            font-size: 28px;
+        }
+
+        .notice-card {
+            background: white;
+            border-radius: 18px;
+            padding: 28px 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+            transition: 0.3s ease;
+        }
+
+        .notice-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+        }
+
+        .notice-meta {
+            font-size: 14px;
+            color: #666;
+            margin-top: 8px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #f59e0b;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-left: 8px;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #6d28d9, #2563eb);
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(37,99,235,0.4);
+        }
+
+
+/* ================= CLEAN CATEGORY STYLE ================= */
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.category-card {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    color: #333;
+    border: 1px solid #e5e7eb;
+    transition: 0.2s ease;
+}
+
+.category-card:hover {
+    background: #f3f4f6;
+    border-color: #2563eb;
+    color: #2563eb;
+}
+/* ================= CLEAN DEPARTMENT STYLE ================= */
+
+.department-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.department-card {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    color: #333;
+    border: 1px solid #e5e7eb;
+    transition: 0.2s ease;
+}
+
+.department-card:hover {
+    background: #f3f4f6;
+    border-color: #6d28d9;
+    color: #6d28d9;
+}
+/* ================= SUBSCRIBE PAGE ================= */
+
+.subscribe-container {
+    max-width: 700px;
+    margin: 20px auto 60px auto;
+}
+
+.subscribe-form {
+    background: white;
+    padding: 35px;
+    border-radius: 18px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+}
+
+.subscribe-form label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.subscribe-form input[type="email"] {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 25px;
+    font-size: 14px;
+}
+
+.subscribe-form input[type="email"]:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+.checkbox-section {
+    margin-bottom: 25px;
+}
+
+.checkbox-section h4 {
+    margin-bottom: 15px;
+    font-size: 15px;
+    color: #444;
+}
+
+.checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+}
+
+.checkbox-card {
+    background: #f9fafb;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.2s ease;
+}
+
+.checkbox-card:hover {
+    background: #eef2ff;
+    border-color: #2563eb;
+}
+
+.checkbox-card input {
+    accent-color: #2563eb;
+}
+
+.subscribe-submit {
+    margin-top: 15px;
+    padding: 12px 25px;
+    border-radius: 25px;
+    border: none;
+    background: linear-gradient(135deg, #6d28d9, #2563eb);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.subscribe-submit:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(37,99,235,0.4);
+}
+
+
+/*ntoice card*/
+
+.notice-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+.notice-desc {
+    margin: 10px 0 14px 0;
+    color: #444;
+}
+.badge {
+    display: inline-block;
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-left: 8px;
+    font-weight: 500;
+}
+
+.category-badge {
+    background: #ff7d37;  /* blue */
+    margin-left: 8px;
+}
+
+.dept-badge {
+    background: #0bf5e5;  /* orange */
+    margin-left: 6px;
+}
+
+.updated-badge {
+    background: #22c55e;  /* green */
+    margin-left: 6px;
+}
+
+.file-btn {
+    margin-top: 12px;
+}
+
+/*headings*/
+.main-heading {
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.sub-heading {
+    font-size: 15px;
+    color: #6b7280;
+    margin-bottom: 30px;
+}
+
+/*filters*/
+/* SUCCESS MESSAGE */
+.alert-success {
+    background:#dcfce7;
+    color:#166534;
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:25px;
+}
+
+/* HEADINGS */
+.main-heading {
+    font-size: 36px;
+    margin-bottom: 5px;
+}
+
+.sub-heading {
+    color: #555;
+    margin-bottom: 30px;
+}
+
+/* FILTER BAR */
+.filter-bar {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 35px;
+    align-items: center;
+}
+
+.filter-bar select {
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+.btn-apply {
+    padding: 8px 18px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(135deg, #6d28d9, #2563eb);
+    color: white;
+    font-weight: 500;
+    transition: 0.3s ease;
+}
+
+.btn-apply:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(37,99,235,0.4);
+}
+
+
+
+
+
+
+
+
+
+
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="navbar">
+        <div class="logo">📢 NoticeBoard</div>
+
+        <nav>
+            <a href="/">Home</a>
+            <a href="/categories/">Categories</a>
+            <a href="/departments/">Departments</a>
+        </nav>
+
+        <a href="/admin/login/" class="admin-btn">
+            Admin Login
+        </a>
+    </div>
+</header>
+
+
+<!-- SINGLE CLEAN SUBSCRIBE BOX -->
+<div class="subscribe-box">
+    <div class="subscribe-inner">
+        <div>
+            <strong>Never Miss an Important Notice</strong>
+            <p>Get notified whenever a new notice is published.</p>
+        </div>
+
+        <a href="/subscriptions/subscribe/" class="subscribe-btn">
+            🔔 Subscribe
+        </a>
+    </div>
+</div>
+
+
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
+
+</body>
+</html>

@@ -1,0 +1,15 @@
+{% extends "public/base.html" %}
+
+{% block content %}
+
+<h2 style="margin-bottom:25px;">Categories</h2>
+
+<div class="category-grid">
+    {% for category in categories %}
+        <a href="{% url 'category_notices' category.slug %}" class="category-card">
+            {{ category.name }}
+        </a>
+    {% endfor %}
+</div>
+
+{% endblock %}

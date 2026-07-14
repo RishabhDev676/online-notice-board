@@ -1,0 +1,35 @@
+{% extends "admin/dashboard.html" %}
+{% block content %}
+
+<h2>Departments</h2>
+
+<a href="{% url 'admin_department_add' %}">
+    <button>+ Add Department</button>
+</a>
+
+<table style="width:100%; margin-top:20px; border-collapse: collapse;">
+    <thead>
+        <tr style="background:#f3f4f6;">
+            <th style="padding:12px; text-align:left;">Name</th>
+            <th style="padding:12px; text-align:left;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for d in departments %}
+        <tr style="border-bottom:1px solid #eee;">
+            <td style="padding:12px;">{{ d.name }}</td>
+            <td style="padding:12px;">
+                <a href="{% url 'admin_department_edit' d.id %}" class="action-btn btn-edit">Edit
+                </a>
+
+                <a href="{% url 'admin_department_delete' d.id %}"
+                onclick="return confirm('Delete this category?');"
+                class="action-btn btn-delete">Delete
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

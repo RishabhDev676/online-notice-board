@@ -1,0 +1,57 @@
+<div class="notice-card">
+
+    <!-- TITLE + BADGES -->
+    <h3 class="notice-title">
+        {{ notice.title }}
+
+        {% if notice.category %}
+            <span class="badge category-badge">
+                {{ notice.category.name }}
+            </span>
+        {% endif %}
+
+        {% if notice.department %}
+            <span class="badge dept-badge">
+                {{ notice.department.name }}
+            </span>
+        {% endif %}
+
+        {% if notice.show_updated_badge %}
+            <span class="badge updated-badge">
+                🔄 Updated
+            </span>
+        {% endif %}
+    </h3>
+
+    <!-- DESCRIPTION -->
+    <p class="notice-desc">
+        {{ notice.description }}
+    </p>
+
+    <!-- DATE -->
+    {% if notice.published_at %}
+        <div class="notice-meta">
+            📅 {{ notice.published_at|date:"d M Y" }}
+        </div>
+    {% endif %}
+
+    <!-- FILE ATTACHMENT -->
+    {% if notice.file %}
+        {% with notice.file.name|lower as filename %}
+            <a href="{{ notice.file.url }}" class="btn file-btn" target="_blank">
+                {% if ".pdf" in filename %}
+                    📄 View PDF
+                {% elif ".jpg" in filename or ".jpeg" in filename or ".png" in filename %}
+                    🖼️ View Image
+                {% elif ".doc" in filename %}
+                    📝 View Document
+                {% elif ".xls" in filename %}
+                    📊 View Spreadsheet
+                {% else %}
+                    📎 View Attachment
+                {% endif %}
+            </a>
+        {% endwith %}
+    {% endif %}
+
+</div>
